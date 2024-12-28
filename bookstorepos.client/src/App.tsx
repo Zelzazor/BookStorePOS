@@ -1,58 +1,33 @@
-import { useEffect, useState } from 'react';
-import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router";
+import { BookDetail } from './Pages/BookDetail';
+import { BookList } from './Pages/BookList';
+import { QueryClient, QueryClientProvider } from "react-query";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { AddBook } from "./Pages/AddBook";
+import { DeleteBook } from "./Pages/DeleteBook";
+import { EditBook } from "./Pages/EditBook";
 
-interface Forecast {
-    date: string;
-    temperatureC: number;
-    temperatureF: number;
-    summary: string;
-}
+const queryClient = new QueryClient()
 
 function App() {
-    const [forecasts, setForecasts] = useState<Forecast[]>();
 
-    useEffect(() => {
-        populateWeatherData();
-    }, []);
-
-    const contents = forecasts === undefined
-        ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
-        : <table className="table table-striped" aria-labelledby="tableLabel">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Temp. (C)</th>
-                    <th>Temp. (F)</th>
-                    <th>Summary</th>
-                </tr>
-            </thead>
-            <tbody>
-                {forecasts.map(forecast =>
-                    <tr key={forecast.date}>
-                        <td>{forecast.date}</td>
-                        <td>{forecast.temperatureC}</td>
-                        <td>{forecast.temperatureF}</td>
-                        <td>{forecast.summary}</td>
-                    </tr>
-                )}
-            </tbody>
-        </table>;
-
+    
     return (
-        <div>
-            <h1 id="tableLabel">Weather forecast</h1>
-            <p>This component demonstrates fetching data from the server.</p>
-            {contents}
-        </div>
-    );
-
-    async function populateWeatherData() {
-        const response = await fetch('weatherforecast');
-        if (response.ok) {
-            const data = await response.json();
-            setForecasts(data);
-        }
-    }
+        <QueryClientProvider client={queryClient}>
+            <BrowserRouter>
+                <Routes> 
+                    <Route index element={<BookList />} />
+                    <Route path="books">
+                        <Route index element={<BookList/>} />
+                        <Route path=":id" element={<BookDetail />} />
+                        <Route path="add" element={<AddBook/>} />
+                        <Route path="edit/:id" element={<EditBook />} />
+                        <Route path="delete/:id" element={<DeleteBook />} />
+                    </Route>
+                </Routes>
+            </BrowserRouter>
+        </QueryClientProvider>
+    )
 }
 
 export default App;
