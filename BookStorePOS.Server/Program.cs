@@ -1,4 +1,6 @@
 
+using BookStorePOS.Server.Services;
+
 namespace BookStorePOS.Server
 {
     public class Program
@@ -13,6 +15,10 @@ namespace BookStorePOS.Server
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddHttpClient();
+
+            builder.Services.AddScoped<IBookService, BookService>();
 
             var app = builder.Build();
 
