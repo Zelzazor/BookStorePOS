@@ -1,7 +1,7 @@
 ﻿using BookStorePOS.Server.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BookStorePOS.Server.Services
+namespace BookStorePOS.Server.Services.Books
 {
     public interface IBookService
     {

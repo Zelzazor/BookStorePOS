@@ -1,15 +1,15 @@
 import { FormEvent, useRef } from "react";
 import { Container, Button, Form, Alert } from "react-bootstrap";
-import { addBook } from "../Api";
+import { addBook } from "../../Api/Books";
 import { useMutation } from "react-query";
 import { Link } from "react-router";
-import { Book } from "../Model/Book";
+import { Author } from "../../Model/Book";
 
 
-export const AddBook = () => {
+const AddBook = () => {
     const formRef = useRef<HTMLFormElement | null>(null);
 
-    const mutation = useMutation<Book, Error, Book>(addBook)
+    const mutation = useMutation<Author, Error, Author>(addBook)
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -114,3 +114,5 @@ export const AddBook = () => {
         </Container>
     );
 } 
+
+export default AddBook;
