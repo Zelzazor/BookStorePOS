@@ -1,11 +1,11 @@
 ﻿using BookStorePOS.Server.Models;
-using BookStorePOS.Server.Services;
+using BookStorePOS.Server.Services.Books;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStorePOS.Server.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/books")]
     public class BookController(IBookService bookService) : ControllerBase
     {
 

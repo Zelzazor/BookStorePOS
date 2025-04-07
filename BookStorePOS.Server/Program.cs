@@ -1,5 +1,5 @@
-
-using BookStorePOS.Server.Services;
+using BookStorePOS.Server.Services.Authors;
+using BookStorePOS.Server.Services.Books;
 
 namespace BookStorePOS.Server
 {
@@ -19,6 +19,7 @@ namespace BookStorePOS.Server
             builder.Services.AddHttpClient();
 
             builder.Services.AddScoped<IBookService, BookService>();
+            builder.Services.AddScoped<IAuthorService, AuthorService>();
 
             var app = builder.Build();
 

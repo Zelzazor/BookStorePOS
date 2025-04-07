@@ -1,30 +1,24 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import { useRef, FormEvent } from "react";
-import { Container, Button, Form, Spinner, Alert } from "react-bootstrap";
+import { Container, Button, Form, Alert } from "react-bootstrap";
 import { useMutation, useQuery } from "react-query";
 import { Link, useParams } from "react-router";
-import { editBook, getBook } from "../Api";
-import { toLocalISOString } from "../Helpers";
-import { Book } from "../Model/Book";
+import { editBook, getBook } from "../../Api/Books";
+import { toLocalISOString } from "../../Helpers";
+import { Author } from "../../Model/Book";
+import { Loading } from "../../Components/Loading";
 
-export const EditBook = () => {
+const EditBook = () => {
 
     const params = useParams();
     const formRef = useRef<HTMLFormElement | null>(null);
 
-    const mutation = useMutation<Book, Error, { id: number; book: Book }>(editBook);
+    const mutation = useMutation<Author, Error, { id: number; book: Author }>(editBook);
 
-    const query = useQuery<Book, Error>(["book", "edit", params.id], async () => await getBook(params.id ?? ''))
+    const query = useQuery<Author, Error>(["book", "edit", params.id], async () => await getBook(params.id ?? ''))
 
     if (query.isLoading) {
-        return (
-            <div style={{ display: "flex", placeItems: 'center', justifyContent: 'center', minHeight: "100vh" }}>
-                <Spinner animation="border" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                </Spinner>
-            </div>
-
-        )
+        return <Loading />
     }
 
     if (query.isError) {
@@ -148,3 +142,5 @@ export const EditBook = () => {
         </Container>
     );
 } 
+
+export default EditBook;
