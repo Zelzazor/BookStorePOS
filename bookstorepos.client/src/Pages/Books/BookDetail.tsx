@@ -1,26 +1,20 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import { useParams } from "react-router"
-import { getBook } from "../Api";
+import { getBook } from "../../Api/Books";
 import { useQuery } from "react-query";
-import { Button, Spinner } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { Link } from "react-router";
-import { Book } from "../Model/Book";
+import { Author } from "../../Model/Book";
+import { Loading } from "../../Components/Loading";
 
-export const BookDetail = () => {
+const BookDetail = () => {
     const params = useParams();
 
-    const query = useQuery<Book, Error>(["book", params.id], async () => await getBook(params.id ?? ''))
+    const query = useQuery<Author, Error>(["book", params.id], async () => await getBook(params.id ?? ''))
     
     if (query.isLoading) {
-        return (
-            <div style={{ display: "flex", placeItems: 'center', justifyContent: 'center', minHeight: "100vh" }}>
-                <Spinner animation="border" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                </Spinner>
-            </div>
-
-        )
+        return <Loading />
     }
 
     if (query.isError) {
@@ -60,3 +54,5 @@ export const BookDetail = () => {
        
     )
 }
+
+export default BookDetail;

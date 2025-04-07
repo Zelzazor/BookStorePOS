@@ -1,13 +1,14 @@
-import { Spinner, Container, Button, Alert } from "react-bootstrap";
+import { Container, Button, Alert } from "react-bootstrap";
 import { useMutation, useQuery } from "react-query";
 import { useParams } from "react-router";
-import { deleteBook, getBook } from "../Api";
+import { deleteBook, getBook } from "../../Api/Books";
 import { useNavigate } from "react-router";
-import { Book } from "../Model/Book";
+import { Author } from "../../Model/Book";
 import { Link } from "react-router";
 import { useState } from "react";
+import { Loading } from "../../Components/Loading";
 
-export const DeleteBook = () => {
+const DeleteBook = () => {
 
     const params = useParams();
     const navigate = useNavigate();
@@ -18,7 +19,7 @@ export const DeleteBook = () => {
             navigate("/books")
         }
     });
-    const query = useQuery<Book, Error>(["book", "edit", params.id], async () => await getBook(params.id ?? ''))
+    const query = useQuery<Author, Error>(["book", "delete", params.id], async () => await getBook(params.id ?? ''))
 
 
 
@@ -42,14 +43,7 @@ export const DeleteBook = () => {
 
 
     if (query.isLoading) {
-        return (
-            <div style={{ display: "flex", placeItems: 'center', justifyContent: 'center', minHeight: "100vh" }}>
-                <Spinner animation="border" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                </Spinner>
-            </div>
-
-        )
+        return <Loading />
     }
 
     const item = query.data;
@@ -74,3 +68,5 @@ export const DeleteBook = () => {
         </Container>
     )
 } 
+
+export default DeleteBook;
